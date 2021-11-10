@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# Sample input: create-user username 0 2022-01-01 100 5
+
+name=$1
+is_passwd_exp=$2
+exp_date=$3
+change_period=$4
+warn_days=$5
+
+useradd --password "" --expiredate $exp_date $name
+
+if [[ $is_passwd_exp == 1 ]]; then
+	passwd $name -e --mindays $change_period --warndays $warn_days
+else
+	passwd $name --mindays $change_period --warndays $warn_days
+fi
+
+echo "Successfully created user $name"
