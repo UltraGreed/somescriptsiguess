@@ -1,0 +1,31 @@
+#!/bin/bash
+
+year=$(( 1970 ))
+month=$(( 1 ))
+days=$(( $1 + 1 ))
+
+while [[ $days -ge 366 || $days -ge 365 && $(( ($year - 1968) % 4 )) -ne 0 ]]; do
+	if [[ $(( ($year - 1968) % 4 )) == 0 ]]; then
+		days=$(( $days - 366 )); year=$(( $year + 1 ))
+	else
+		days=$(( $days - 365 )); year=$(( $year + 1 ))
+	fi
+done
+
+months=( 31 28 31 30 31 30 31 31 30 31 30 )
+if [[ $(( ($year - 1968) % 4 )) == 0 ]]; then
+	months[1]=29
+fi
+
+for i in ${months[@]}; do
+	if [[ $days -gt $i ]]; then
+		days=$(( $days - i ))
+		month=$(( $month + 1 ))
+	else 
+		break
+	fi
+done
+
+month_names=( January February March April May June July August September October November December )
+
+echo "$days ${month_names[$month]} $year"
