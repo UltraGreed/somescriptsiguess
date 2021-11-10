@@ -1,0 +1,16 @@
+#!/bin/bash
+
+declare -A dict
+while read login password; do
+	dict[${login}]=$password
+done < user_info
+
+echo "Input login:"; read username
+echo "Input password:"; read password
+
+if [[ ${dict[${username}]} == $password ]]; then
+	echo "${dict[${username}]} $password"
+	echo "Successful login"
+else
+	echo "Wrong login or password"
+fi
